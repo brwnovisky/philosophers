@@ -63,7 +63,7 @@ DRD				= @valgrind \
 				--tool=drd \
 				--log-file=drd_out.txt -s
 
-TEST			= 2 500 200 200 2
+TEST			= 4 450 200 200 2
 
 val:		$(NAME)
 				$(VALGRIND) ./$(NAME) $(TEST)

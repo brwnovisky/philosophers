@@ -8,8 +8,11 @@ void    thinking_about_the_finitude_or_infinitude_of_life(t_philo *philo)
 int trying_to_sleep_like_a_lazy_bear(t_philo *philo, \
 int only_releasing_the_fucking_forks)
 {
-    pthread_mutex_unlock(philo->right_fork);
+    if (philo->name % 2 != 0)
+        pthread_mutex_unlock(philo->left_fork);
     if (philo->wisdom->philos_number > 1)
+        pthread_mutex_unlock(philo->right_fork);
+    if (philo->name % 2 == 0)
         pthread_mutex_unlock(philo->left_fork);
     if (only_releasing_the_fucking_forks)
         return (0);
@@ -22,18 +25,21 @@ int trying_to_eat_a_spaghetti_in_piece(t_philo *philo)
 {
     philo->last_eat = timestamp_in_ms();
     philo_news(philo, EATING);
-    philo->meals_count += 1;
-    pthread_mutex_lock(&philo->wisdom->philos_fed_lock);
-    philo->wisdom->philos_fed += \
-    (philo->meals_count == philo->wisdom->spaghetti_amount);
-    if (philo->wisdom->philos_fed >= philo->wisdom->philos_number)
+    if (philo->wisdom->spaghetti_amount)
     {
-        if (philo->wisdom->philos_fed == philo->wisdom->philos_number) 
-            philo_news_censorship(philo);
+        philo->meals_count += 1;
+        pthread_mutex_lock(&philo->wisdom->philos_fed_lock);
+        philo->wisdom->philos_fed += \
+        (philo->meals_count == philo->wisdom->spaghetti_amount);
+        if (philo->wisdom->philos_fed >= philo->wisdom->philos_number)
+        {
+            if (philo->wisdom->philos_fed == philo->wisdom->philos_number) 
+                philo_news_censorship(philo);
+            pthread_mutex_unlock(&philo->wisdom->philos_fed_lock);
+            return(trying_to_sleep_like_a_lazy_bear(philo, 1));
+        }
         pthread_mutex_unlock(&philo->wisdom->philos_fed_lock);
-        return(trying_to_sleep_like_a_lazy_bear(philo, 1));
     }
-    pthread_mutex_unlock(&philo->wisdom->philos_fed_lock);
     spending_my_time(philo->wisdom->eat_time);    
     return (SUCCESS);
 }
@@ -71,6 +77,8 @@ void    *the_philosopher_lifestyle(void *arg)
 
     philo = (t_philo *)arg;
     philo->last_eat = philo->wisdom->start_time;
+    if (philo->name % 2 == 0)
+        spending_my_time(1);
     while (1)
     {   
         if (!trying_to_take_the_fucking_forks(philo))
