@@ -6,21 +6,22 @@ t_philo **philo, int args_quantity, char **args_quality)
     int     not_a_digit;
 
     not_a_digit = 0;
-    (*wisdom) = malloc_with_zeros(1, sizeof(t_wisdom));
-    if (args_quantity == 5 || args_quantity == 6)
-    {
-        (*wisdom)->philos_number = a_to_sizet(args_quality[1], &not_a_digit);
-        (*wisdom)->life_time = a_to_sizet(args_quality[2], &not_a_digit);
-        (*wisdom)->eat_time = a_to_sizet(args_quality[3], &not_a_digit);
-        (*wisdom)->sleep_time = a_to_sizet(args_quality[4], &not_a_digit);
-        if (args_quantity == 6)
-            (*wisdom)->spaghetti_amount= a_to_sizet(args_quality[5], \
-            &not_a_digit);
-        pthread_mutex_init(&((*wisdom)->philos_fed_lock), NULL);
-        pthread_mutex_init(&((*wisdom)->cemetery_lock), NULL);
-        pthread_mutex_init(&((*wisdom)->philo_news_lock), NULL);
-    }
-    *philo = malloc_with_zeros((*wisdom)->philos_number, sizeof(t_philo));
+    *wisdom = malloc_with_zeros(1, sizeof(t_wisdom));
+    if (args_quantity > 1)
+    (*wisdom)->philos_number = a_to_sizet(args_quality[1], &not_a_digit);
+    if (args_quantity > 2)
+    (*wisdom)->life_time = a_to_sizet(args_quality[2], &not_a_digit);
+    if (args_quantity > 3)
+    (*wisdom)->eat_time = a_to_sizet(args_quality[3], &not_a_digit);
+    if (args_quantity > 5)
+    (*wisdom)->sleep_time = a_to_sizet(args_quality[4], &not_a_digit);
+    if (args_quantity == 6)
+        (*wisdom)->spaghetti_amount= a_to_sizet(args_quality[5], &not_a_digit);
+    pthread_mutex_init(&((*wisdom)->philos_fed_lock), NULL);
+    pthread_mutex_init(&((*wisdom)->cemetery_lock), NULL);
+    pthread_mutex_init(&((*wisdom)->philo_news_lock), NULL);
+    if (!not_a_digit)
+        *philo = malloc_with_zeros((*wisdom)->philos_number, sizeof(t_philo));
     return(not_a_digit);
 }
 
@@ -33,7 +34,6 @@ void    philosophers_genetical_handling(t_philo *philo, t_wisdom *wisdom)
     {
         philo[index].name = index + 1;
         philo[index].wisdom = wisdom;
-        pthread_mutex_init(&philo[index].someone_starved_lock, NULL);
         philo[index].right_fork = &wisdom->forks[index];
         if (index == wisdom->philos_number - 1)
             philo[0].left_fork = &wisdom->forks[index];

@@ -35,8 +35,7 @@ void    *the_philosopher_lifestyle(void *arg);
 
 int     trying_to_take_the_fucking_forks(t_philo *philo);
 
-int     trying_to_eat_a_spaghetti_in_piece(t_philo *philo, \
-pthread_t *starve_demon);
+int     trying_to_eat_a_spaghetti_in_piece(t_philo *philo);
 
 int     trying_to_sleep_like_a_lazy_bear(t_philo *philo, \
 int only_releasing_the_fucking_forks);

@@ -22,20 +22,16 @@ void    philo_news(t_philo *philo, char *event)
 int fallacies_will_not_be_appreciated(t_wisdom **wisdom, t_philo **philo, \
 int args_quantity, int possible_fallacies)
 {
-    if (args_quantity < 5)
-    {
-        write(2, ERROR_ARGS_1, 23);      
-        return (cleaning_the_agora(wisdom, philo, 1));
-    }
-    else if (args_quantity > 6)
-    {
-        write(2, ERROR_ARGS_2, 20);
-        return (cleaning_the_agora(wisdom, philo, 1));
-    }
-    else if (possible_fallacies)
-    {
+    int     bad_arguments;
+
+    bad_arguments = 0;
+    if (possible_fallacies)
         write(2, ERROR_ARGS_3, 19);      
+    if (args_quantity < 5 && ++bad_arguments)
+        write(2, ERROR_ARGS_1, 23);      
+    else if (args_quantity > 6 && ++bad_arguments)
+        write(2, ERROR_ARGS_2, 20);
+    if (bad_arguments || possible_fallacies)
         return (cleaning_the_agora(wisdom, philo, 1));
-    }
     return (EXIT_SUCCESS);
 }

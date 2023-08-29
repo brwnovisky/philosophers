@@ -21,11 +21,9 @@ typedef struct s_philo
 {
     pthread_mutex_t         *left_fork;
     pthread_mutex_t         *right_fork;
-    pthread_mutex_t         someone_starved_lock;
     pthread_t               philo;
     size_t                  last_eat;
     size_t                  meals_count;
     size_t                  name;
-    size_t                  someone_starved;
     struct s_wisdom         *wisdom;
 }                           t_philo;

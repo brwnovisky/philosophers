@@ -46,20 +46,30 @@ re:				fclean all
 
 .PHONY: 		all clean fclean re
 
+#-------------- Valgrind tests ------------------------------------------------#
+
 VALGRIND 		= @valgrind \
 				--leak-check=full \
 				--show-leak-kinds=all \
 				--track-origins=yes \
 				--trace-children=yes \
-				--log-file=valgrind-out.txt -s
+				--log-file=valgrind_out.txt -s
 
 HELGRIND		= @valgrind \
 				--tool=helgrind \
-				--trace-children=yes \
-				--log-file=helgrind-out.txt -s
+				--log-file=helgrind_out.txt -s
 
-valgrind:		$(NAME)
-				$(VALGRIND) ./${NAME}
+DRD				= @valgrind \
+				--tool=drd \
+				--log-file=drd_out.txt -s
 
-helgrind:		$(NAME)
-				$(HELGRIND) ./${NAME}
+TEST			= 2 500 200 200 2
+
+val:		$(NAME)
+				$(VALGRIND) ./$(NAME) $(TEST)
+
+hel:		$(NAME)
+				$(HELGRIND) ./$(NAME) $(TEST)
+
+drd:			$(NAME)
+				$(DRD) ./$(NAME) $(TEST)
