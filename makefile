@@ -7,12 +7,14 @@ HEADERS			= inc/philo.h
 
 FILES			= start_here.c \
 				  how_philosophers_are_born.c \
-				  philo_feed_and_fallacies_refuted.c \
+				  philo_news_and_fallacies_refuted.c \
 				  philosophers_lifestyle.c \
 				  philosophical_utilities.c \
 				  when_philos_leaves_this_world.c
 
-CFLAGS			= -Wall -Wextra -Werror -g 
+CFLAGS			= -Wall -Wextra -Werror -g
+
+LFLAGS			= -lpthread
 
 CC				= gcc
 RM				= rm -rf
@@ -30,9 +32,6 @@ $(OBJS_PATH):
 
 $(OBJS_PATH)/%.o: $(FILE_PATH)/%.c $(HEADERS)
 				@$(CC) $(CFLAGS) -c $< -o $@
-			
-$(LIBFT):
-				@make -C $(LIBFT_PATH)
 					
 clean:
 				@$(RM) $(OBJS)
@@ -47,8 +46,20 @@ re:				fclean all
 
 .PHONY: 		all clean fclean re
 
-VALGRIND 		= @valgrind --leak-check=full --show-leak-kinds=all \
---track-origins=yes --trace-children=yes --log-file=valgrind-out.txt -s
+VALGRIND 		= @valgrind \
+				--leak-check=full \
+				--show-leak-kinds=all \
+				--track-origins=yes \
+				--trace-children=yes \
+				--log-file=valgrind-out.txt -s
+
+HELGRIND		= @valgrind \
+				--tool=helgrind \
+				--trace-children=yes \
+				--log-file=helgrind-out.txt -s
 
 valgrind:		$(NAME)
 				$(VALGRIND) ./${NAME}
+
+helgrind:		$(NAME)
+				$(HELGRIND) ./${NAME}

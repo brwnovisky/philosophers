@@ -18,7 +18,7 @@ t_philo **philo, int args_quantity, char **args_quality)
             &not_a_digit);
         pthread_mutex_init(&((*wisdom)->philos_fed_lock), NULL);
         pthread_mutex_init(&((*wisdom)->cemetery_lock), NULL);
-        pthread_mutex_init(&((*wisdom)->philo_feed_lock), NULL);
+        pthread_mutex_init(&((*wisdom)->philo_news_lock), NULL);
     }
     *philo = malloc_with_zeros((*wisdom)->philos_number, sizeof(t_philo));
     return(not_a_digit);
@@ -27,25 +27,18 @@ t_philo **philo, int args_quantity, char **args_quality)
 void    philosophers_genetical_handling(t_philo *philo, t_wisdom *wisdom)
 {
     size_t          index;
-    pthread_mutex_t forever_alone_pseudo_fork;
     
     index = -1;
-    pthread_mutex_init(&(forever_alone_pseudo_fork), NULL);
     while (++index < wisdom->philos_number)
     {
-
         philo[index].name = index + 1;
         philo[index].wisdom = wisdom;
-        pthread_mutex_init(&(philo[index].right_fork), NULL);
+        pthread_mutex_init(&philo[index].someone_starved_lock, NULL);
+        philo[index].right_fork = &wisdom->forks[index];
         if (index == wisdom->philos_number - 1)
-        {
-            if (wisdom->philos_number >= 2)
-                philo[0].left_fork = &philo[index].right_fork;
-            else
-                philo[0].left_fork = &forever_alone_pseudo_fork;
-        }
+            philo[0].left_fork = &wisdom->forks[index];
         if (index)
-            philo[index].left_fork = &philo[index - 1].right_fork;    
+            philo[index].left_fork = &wisdom->forks[index - 1];    
     }
 }
 void    philosophers_maternity(t_philo *philo, t_wisdom *wisdom)
@@ -61,3 +54,12 @@ void    philosophers_maternity(t_philo *philo, t_wisdom *wisdom)
     }
 }
 
+void    forks_factory(t_wisdom *wisdom)
+{
+    size_t  index;
+    index = -1;
+    wisdom->forks = malloc_with_zeros(wisdom->philos_number, \
+    sizeof(pthread_mutex_t));
+    while (++index < wisdom->philos_number)
+        pthread_mutex_init(&wisdom->forks[index], NULL);
+}

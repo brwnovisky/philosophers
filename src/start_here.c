@@ -11,6 +11,7 @@ int main(int args_quantity, char **args_quality)
     if (fallacies_will_not_be_appreciated(&wisdom, &philo, args_quantity, \
     possible_fallacies))
         return (EXIT_FAILURE); 
+    forks_factory(wisdom);
     philosophers_genetical_handling(philo, wisdom);
     philosophers_maternity(philo, wisdom);
     here_philosophers_rest_in_peace(wisdom, philo);
