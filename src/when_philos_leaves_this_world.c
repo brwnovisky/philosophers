@@ -24,4 +24,5 @@ int fallacies_not_accepted)
     if (!fallacies_not_accepted)
         free(*philo);
     return (fallacies_not_accepted);
-} 
+}
+ 

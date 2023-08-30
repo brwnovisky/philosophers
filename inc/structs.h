@@ -1,5 +1,3 @@
-#include "philo.h"
-
 typedef struct s_wisdom
 {
     pthread_mutex_t         *forks;

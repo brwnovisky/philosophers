@@ -1,4 +1,3 @@
-#include "philo.h"
 
 /*----------------------------------------------------------------------------*/
 /*                           how_philosophers_are_born.c                      */
@@ -66,5 +65,3 @@ int     cleaning_the_agora(t_wisdom **wisdom, t_philo **philo, \
 int fallacies_not_accepted);
 
 void    here_philosophers_rest_in_peace(t_wisdom *wisdom, t_philo *philo);
-
-void    *the_starve_demon_threat(void *arg);

@@ -28,7 +28,7 @@ int args_quantity, int possible_fallacies)
     if (possible_fallacies)
         write(2, ERROR_ARGS_3, 19);      
     if (args_quantity < 5 && ++bad_arguments)
-        write(2, ERROR_ARGS_1, 23);      
+        write(2, ERROR_ARGS_1, 22);      
     else if (args_quantity > 6 && ++bad_arguments)
         write(2, ERROR_ARGS_2, 20);
     if (bad_arguments || possible_fallacies)

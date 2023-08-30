@@ -1,7 +1,8 @@
 # define  EXCEPTION     0
+# define  FOREVER       1
 # define  SUCCESS       1
 
-# define  ERROR_ARGS_1  "Need's more arguments\n"
+# define  ERROR_ARGS_1  "Needs more arguments\n"
 # define  ERROR_ARGS_2  "Too many arguments\n"
 # define  ERROR_ARGS_3  "Invalid Arguments\n"
 
